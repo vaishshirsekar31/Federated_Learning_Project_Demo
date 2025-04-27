@@ -32,6 +32,8 @@ You will see logs like:
 "Training epoch 1/3 completed. Loss: 0.45"
 
 (After ~10 seconds) "Local model training successfully completed."
+<img width="1510" alt="Screenshot 2025-04-26 at 10 15 16 PM" src="https://github.com/user-attachments/assets/821bef19-ff78-4815-ae02-a1263ca5e6d0" />
+
 
 - Send Weights to Server:
 After training completes on each phone, click the Send Weights to Server button on both Phone 1 and Phone 2.
