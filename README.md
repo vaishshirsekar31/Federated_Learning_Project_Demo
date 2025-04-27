@@ -26,9 +26,8 @@ Click the Local Training button on Phone 1 and Phone 2.
 
 You will see logs like:
 
-"Private data loading started..."
-
-"Preprocessing data..."
+- Private data loading started..."
+- Preprocessing data..."
 
 "Training epoch 1/3 completed. Loss: 0.45"
 
