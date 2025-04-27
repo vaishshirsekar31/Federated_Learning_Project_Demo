@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Federated Learning Simulation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="server">
+            <h2>Server</h2>
+            <div id="server-log" class="log"></div>
+        </div>
+
+        <div class="phones">
+            <!-- Phone 1 -->
+            <div class="phone">
+                <div class="screen">
+                    <h3>Android Phone 1</h3>
+                    <button onclick="startLocalTraining('Phone 1', 'phone1-log')">Local Training</button>
+                    <button onclick="sendToServer('Phone 1', 'phone1-log')">Send Weights to Server</button>
+                    <div id="phone1-log" class="log"></div>
+                </div>
+                <div class="home-button"></div>
+            </div>
+
+            <!-- Phone 2 -->
+            <div class="phone">
+                <div class="screen">
+                    <h3>Android Phone 2</h3>
+                    <button onclick="startLocalTraining('Phone 2', 'phone2-log')">Local Training</button>
+                    <button onclick="sendToServer('Phone 2', 'phone2-log')">Send Weights to Server</button>
+                    <div id="phone2-log" class="log"></div>
+                </div>
+                <div class="home-button"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let connectedClients = new Set();
+        let sentClients = new Set();
+
+        function logMessage(logId, message, type='phone') {
+            const logDiv = document.getElementById(logId);
+            const p = document.createElement('p');
+            p.innerText = message;
+            if (type === 'server') {
+                p.classList.add('server-message');
+            } else {
+                p.classList.add('phone-message');
+            }
+            logDiv.appendChild(p);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function startLocalTraining(phoneName, phoneLogId) {
+            logMessage(phoneLogId, "Private data loading started...");
+            setTimeout(() => {
+                logMessage(phoneLogId, "Preprocessing data...");
+            }, 1000);
+            setTimeout(() => {
+                logMessage(phoneLogId, "Private data training started...");
+            }, 2000);
+            setTimeout(() => {
+                logMessage(phoneLogId, "Training on local data...");
+            }, 3000);
+            setTimeout(() => {
+                logMessage(phoneLogId, "Training epoch 1/3 completed. Loss: 0.45");
+            }, 5000);
+            setTimeout(() => {
+                logMessage(phoneLogId, "Training epoch 2/3 completed. Loss: 0.35");
+            }, 7000);
+            setTimeout(() => {
+                logMessage(phoneLogId, "Training epoch 3/3 completed. Loss: 0.28");
+            }, 9000);
+            setTimeout(() => {
+                logMessage(phoneLogId, "Local model training successfully completed.");
+                logMessage(phoneLogId, "Ready to send model updates to server.");
+                connectedClients.add(phoneName);
+            }, 11000);
+        }
+
+        function sendToServer(phoneName, phoneLogId) {
+            logMessage('server-log', `[${phoneName}] Model weights received.`, 'server');
+            logMessage('server-log', `Waiting for all clients to send updates...`, 'server');
+            sentClients.add(phoneName);
+
+            if (sentClients.has('Phone 1') && sentClients.has('Phone 2')) {
+                setTimeout(() => {
+                    performAggregation();
+                }, 1000);
+            }
+        }
+
+        function performAggregation() {
+            logMessage('server-log', `All client updates received.`, 'server');
+            logMessage('server-log', `Starting Federated Aggregation...`, 'server');
+            setTimeout(() => {
+                logMessage('server-log', `Aggregating updates from Phone 1...`, 'server');
+            }, 1000);
+            setTimeout(() => {
+                logMessage('server-log', `Aggregating updates from Phone 2...`, 'server');
+            }, 2000);
+
+            let count = 0;
+            const aggregationInterval = setInterval(() => {
+                if (count < 3) {
+                    count++;
+                    logMessage('server-log', `Aggregation Round ${count} complete.`, 'server');
+                } else {
+                    clearInterval(aggregationInterval);
+                    logMessage('server-log', `Federated model aggregation completed successfully.`, 'server');
+                    logMessage('server-log', `New global model ready to distribute.`, 'server');
+                    
+                    setTimeout(() => {
+                        logMessage('phone1-log', `Global model update received from server.`, 'phone');
+                        logMessage('phone1-log', `Synchronizing with new global weights...`, 'phone');
+                        logMessage('phone1-log', `Ready for next training round.`, 'phone');
+
+                        logMessage('phone2-log', `Global model update received from server.`, 'phone');
+                        logMessage('phone2-log', `Synchronizing with new global weights...`, 'phone');
+                        logMessage('phone2-log', `Ready for next training round.`, 'phone');
+
+                        connectedClients.clear();
+                        sentClients.clear();
+                    }, 2000);
+                }
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
