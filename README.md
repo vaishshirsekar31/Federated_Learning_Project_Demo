@@ -26,17 +26,17 @@ Click the Local Training button on Phone 1 and Phone 2.
 
 You will see logs like:
 
-- Private data loading started..."
-- Preprocessing data..."
+"Private data loading started..."
+"Preprocessing data..."
 
 "Training epoch 1/3 completed. Loss: 0.45"
 
 (After ~10 seconds) "Local model training successfully completed."
 
-Send Weights to Server:
+- Send Weights to Server:
 After training completes on each phone, click the Send Weights to Server button on both Phone 1 and Phone 2.
 
-The server will show logs:
+- The server will show logs:
 
 "[Phone 1] Model weights received."
 
@@ -44,7 +44,7 @@ The server will show logs:
 
 "Waiting for all clients to send updates..."
 
-Aggregation at Server:
+- Aggregation at Server:
 When both phones send weights, the server will automatically:
 
 Start aggregation.
@@ -68,7 +68,7 @@ After aggregation, both Phone 1 and Phone 2 will show:
 
 "Ready for next training round."
 
-✅ Notes:
+- ✅ Notes:
 This matches your exact steps and wording.
 
 It will display beautifully when rendered in GitHub markdown.
